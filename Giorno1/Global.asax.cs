@@ -18,17 +18,6 @@ namespace Giorno1
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            /*
-            var jsonSerializerSettings = new JsonSerializerSettings
-            {
-                PreserveReferencesHandling = PreserveReferencesHandling.Objects
-            };
-
-            HttpConfiguration config = GlobalConfiguration.Configuration;
-            config.Formatters.JsonFormatter.SerializerSettings.Formatting =
-                Newtonsoft.Json.Formatting.Indented;
-            config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            */
         }
     }
 }

@@ -9,6 +9,8 @@ using System.Web;
 using System.Web.Mvc;
 using Giorno1Oggetti;
 using Giorno1.Models;
+using System.IO;
+using System.Data.SqlClient;
 
 namespace Giorno1.Controllers
 {
@@ -53,25 +55,25 @@ namespace Giorno1.Controllers
                 });
             return Json(contatti, JsonRequestBehavior.AllowGet);
         }
-
+        [OutputCache(Duration = 300)]
         public ActionResult ListByCompany(int companyId)
         {
-            var contatti = db.Contacts.Where(c => c.CompanyId == companyId).Select(c =>
-                new ViewContact
-                {
-                    Cognome = c.Cognome,
-                    name = c.Nome,
-                    DataNascita = c.DataNascita,
-                    Email = c.Email,
-                    Company = new ViewCompany
-                    {
-                        Nome = c.Company.Nome,
-                        NumeroDipendenti = c.Company.NumeroDipendenti
-                    }
-                });
-            return Json(contatti, JsonRequestBehavior.AllowGet);
+            var param = new SqlParameter("@companyId", companyId);
+            var contattiDb = db
+                    .Database
+                    .SqlQuery<ViewContact>("sp_ContattiPerCompany @companyId", param).ToList();
+            return Json(contattiDb, JsonRequestBehavior.AllowGet);
         }
-
+        /// <summary>
+        /// Esempio di trasmissione di un file (in questo caso PDF)
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Pdf()
+        {
+            var fs = new FileStream(@"C:\Users\andre\Desktop\Temp\Corsi\Opis\PDFprova.pdf", FileMode.Open);
+            FileStreamResult _ret = new FileStreamResult(fs, "application/pdf");
+            return _ret;
+        }
         // GET: Contact/Details/5
         public async Task<ActionResult> Details(int? id)
         {

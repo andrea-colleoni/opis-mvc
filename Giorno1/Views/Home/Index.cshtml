@@ -51,7 +51,7 @@
                         title: 'Data nascita',
                         data: 'DataNascita',
                         render: function (data, type, row, meta) {
-                            return '<span class="pippo">' + new Date(row.DataNascita.match(/\d+/)[0] * 1) + '</span>';
+                            return '<span class="pippo">' + new Date(row.DataNascita.match(/\d+/)[0] * 1).toLocaleDateString() + '</span>';
                         }
                     }
                 ]
