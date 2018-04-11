@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Giorno1Oggetti;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,8 +9,11 @@ namespace Giorno1.Controllers
 {
     public class HomeController : Controller
     {
+        private Giorno1Context db = new Giorno1Context();
+
         public ActionResult Index()
         {
+            ViewBag.ElencoContatti = db.Contacts.ToList();
             return View();
         }
 

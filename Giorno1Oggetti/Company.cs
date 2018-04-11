@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -9,6 +10,11 @@ namespace Giorno1Oggetti
 {
     public class Company
     {
+        public Company()
+        {
+            Contatti = new HashSet<Contact>();
+        }
+
         [Key]
         public int CompanyId { get; set; }
 
@@ -24,6 +30,7 @@ namespace Giorno1Oggetti
         [Column("Address")]
         public string Indirizzo { get; set; }
 
-        public ICollection<Contact> Contatti { get; set; }
+        [JsonIgnore]
+        public virtual ICollection<Contact> Contatti { get; set; }
     }
 }

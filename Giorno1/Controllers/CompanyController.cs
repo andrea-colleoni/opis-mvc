@@ -21,6 +21,12 @@ namespace Giorno1.Controllers
             return View(await db.Companies.ToListAsync());
         }
 
+        // GET: Company
+        public ActionResult List()
+        {
+            return PartialView("_List", db.Companies.ToList());
+        }
+
         // GET: Company/Details/5
         public async Task<ActionResult> Details(int? id)
         {

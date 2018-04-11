@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Giorno1Oggetti;
+using Giorno1.Models;
 
 namespace Giorno1.Controllers
 {
@@ -18,8 +19,39 @@ namespace Giorno1.Controllers
         // GET: Contact
         public async Task<ActionResult> Index()
         {
-            var contacts = db.Contacts.Include(c => c.Company);
+            var contacts = db.Contacts;//.Include(c => c.Company);
             return View(await contacts.ToListAsync());
+        }
+
+        protected override JsonResult Json(object data, string contentType, System.Text.Encoding contentEncoding, JsonRequestBehavior behavior)
+        {
+            return new JsonResult()
+            {
+                Data = data,
+                ContentType = contentType,
+                ContentEncoding = contentEncoding,
+                JsonRequestBehavior = behavior,
+                MaxJsonLength = Int32.MaxValue
+            };
+        }
+
+        // GET: Contact
+        public ActionResult List()
+        {
+            var contatti = db.Contacts.Select(c => 
+                new ViewContact
+                {
+                    Cognome = c.Cognome,
+                    name = c.Nome,
+                    DataNascita = c.DataNascita,
+                    Email = c.Email,
+                    Company = new ViewCompany
+                    {
+                        Nome = c.Company.Nome,
+                        NumeroDipendenti = c.Company.NumeroDipendenti
+                    }
+                });
+            return Json(contatti, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Contact/Details/5
