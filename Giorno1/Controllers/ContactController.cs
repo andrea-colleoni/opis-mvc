@@ -11,105 +11,112 @@ using Giorno1Oggetti;
 
 namespace Giorno1.Controllers
 {
-    public class CompanyController : Controller
+    public class ContactController : Controller
     {
         private Giorno1Context db = new Giorno1Context();
 
-        // GET: Company
+        // GET: Contact
         public async Task<ActionResult> Index()
         {
-            return View(await db.Companies.ToListAsync());
+            var contacts = db.Contacts.Include(c => c.Company);
+            return View(await contacts.ToListAsync());
         }
 
-        // GET: Company/Details/5
+        // GET: Contact/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Company company = await db.Companies.FindAsync(id);
-            if (company == null)
+            Contact contact = await db.Contacts.FindAsync(id);
+            if (contact == null)
             {
                 return HttpNotFound();
             }
-            return View(company);
+            return View(contact);
         }
 
-        // GET: Company/Create
+        // GET: Contact/Create
         public ActionResult Create()
         {
-            ViewBag.Title = "Nuova company";
-            ViewBag.ButtonText = "Crea";
-            return View("Form", new Company());
+            ViewBag.CompanyId = new SelectList(db.Companies, "CompanyId", "Nome");
+            ViewBag.Title = "Nuovo contatto";
+            ViewBag.ButtonText = "Inserisci";
+            return View("Form", new Contact());
         }
 
-        // GET: Company/Edit/5
+        // GET: Contact/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Company company = await db.Companies.FindAsync(id);
-            if (company == null)
+            Contact contact = await db.Contacts.FindAsync(id);
+            if (contact == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.Title = "Modifica " + company.Nome;
+            ViewBag.CompanyId = new SelectList(db.Companies, "CompanyId", "Nome", contact.CompanyId);
+            ViewBag.Title = "Modifica " + contact.NomeCompleto;
             ViewBag.ButtonText = "Aggiorna";
-            return View("Form", company);
+            return View("Form", contact);
         }
 
-        // POST: Company/Create
+        // POST: Contact/Create
         // Per proteggere da attacchi di overposting, abilitare le proprietà a cui eseguire il binding. 
         // Per ulteriori dettagli, vedere https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Save(Company company)
+        public async Task<ActionResult> Save(Contact contact)
         {
             if (ModelState.IsValid)
             {
-                if (company.CompanyId <= 0)
+                if (contact.ContactId <= 0)
                 {
-                    ViewBag.Title = "Nuova company";
-                    db.Companies.Add(company); // insert
+                    ViewBag.Title = "Nuovo contatto";
+                    db.Contacts.Add(contact);
                 }
                 else
                 {
-                    ViewBag.Title = "Modifica " + company.Nome;
-                    db.Entry(company).State = EntityState.Modified; // update
+                    ViewBag.Title = "Modifica " + contact.NomeCompleto;
+                    db.Entry(contact).State = EntityState.Modified;
                 }
                 await db.SaveChangesAsync();
+                
+                ViewBag.ButtonText = "Riprova";
                 return RedirectToAction("Index");
             }
-            
-            ViewBag.ButtonText = "Riprova";
-            return View("Form", company);
+
+            ViewBag.CompanyId = new SelectList(db.Companies, "CompanyId", "Nome", contact.CompanyId);
+            return View("Form", contact);
         }
 
-        // GET: Company/Delete/5
+
+
+        // GET: Contact/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Company company = await db.Companies.FindAsync(id);
-            if (company == null)
+            Contact contact = await db.Contacts.FindAsync(id);
+            if (contact == null)
             {
                 return HttpNotFound();
             }
-            return View(company);
+            return View(contact);
         }
 
-        // POST: Company/Delete/5
+        // POST: Contact/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Company company = await db.Companies.FindAsync(id);
-            db.Companies.Remove(company);
+            Contact contact = await db.Contacts.FindAsync(id);
+            db.Contacts.Remove(contact);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
