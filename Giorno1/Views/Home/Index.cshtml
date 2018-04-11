@@ -2,12 +2,6 @@
     ViewBag.Title = "Home Page";
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
-
 <div class="row">
     <div id="elencoCompany" class="col-md-6">
         Caricamento....
@@ -25,16 +19,27 @@
         })
         .done(function(risposta) {
             $('#elencoCompany').html(risposta);
+            $('#tbl-company > tbody > tr').mouseover(function () {
+                console.log();
+                $.ajax({
+                    url: '@Url.Action("ListByCompany", "Contact")?companyId=' + $(this).data('companyid'),
+                    method: 'get'
+                })
+                .done(function (contatti) {
+                    console.log(contatti);
+                    caricaContatti(contatti);
+                });
+            });
         });
 
-        $.ajax({
-            url: '@Url.Action("List", "Contact")',
-            method: 'get'
-        })
-        .done(function (contatti) {
-            console.log(contatti);
+
+
+        function caricaContatti(contatti) {
             $('#elencoContatti').DataTable({
                 data: contatti,
+                destroy: true,
+                scrollY: '300px',
+                paging: false,
                 columns: [
                     {
                         title: 'Nome completo',
@@ -51,6 +56,6 @@
                     }
                 ]
             });
-        });
+        }
     </script>
 }

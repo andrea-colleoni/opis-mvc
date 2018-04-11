@@ -54,6 +54,24 @@ namespace Giorno1.Controllers
             return Json(contatti, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult ListByCompany(int companyId)
+        {
+            var contatti = db.Contacts.Where(c => c.CompanyId == companyId).Select(c =>
+                new ViewContact
+                {
+                    Cognome = c.Cognome,
+                    name = c.Nome,
+                    DataNascita = c.DataNascita,
+                    Email = c.Email,
+                    Company = new ViewCompany
+                    {
+                        Nome = c.Company.Nome,
+                        NumeroDipendenti = c.Company.NumeroDipendenti
+                    }
+                });
+            return Json(contatti, JsonRequestBehavior.AllowGet);
+        }
+
         // GET: Contact/Details/5
         public async Task<ActionResult> Details(int? id)
         {
