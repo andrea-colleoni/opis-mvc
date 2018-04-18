@@ -24,6 +24,8 @@ namespace WebAPI.Controllers
         [Authorize]
         public Contact Get(int id)
         {
+            var contact = db.Contacts.Find(id);
+            //contact.NonEsiste = "Ciao";
             return db.Contacts.Find(id);
         }
 
