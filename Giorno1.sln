@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MigrazioneWeb", "Migrazione
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MirazioneWebForm", "MirazioneWebForm\MirazioneWebForm.csproj", "{A51A31CF-2F41-4490-A2EC-16154104436A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI", "WebAPI\WebAPI.csproj", "{89A2C4D4-4786-419B-A128-9B54EE298F7B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{A51A31CF-2F41-4490-A2EC-16154104436A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A51A31CF-2F41-4490-A2EC-16154104436A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A51A31CF-2F41-4490-A2EC-16154104436A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89A2C4D4-4786-419B-A128-9B54EE298F7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89A2C4D4-4786-419B-A128-9B54EE298F7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89A2C4D4-4786-419B-A128-9B54EE298F7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89A2C4D4-4786-419B-A128-9B54EE298F7B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

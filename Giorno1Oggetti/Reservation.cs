@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -22,6 +23,7 @@ namespace Giorno1Oggetti
         public DateTime DataViaggio { get; set; }
 
         [ForeignKey("ContactId")]
+        [JsonIgnore]
         public Contact contatto { get; set; }
 
         [ForeignKey("TelaioAuto")]
