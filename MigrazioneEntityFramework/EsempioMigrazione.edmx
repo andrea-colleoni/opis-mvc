@@ -1,0 +1,221 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="opisModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Companies">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+          </Key>
+          <Property Name="CompanyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Telefono" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="NumeroDipendenti" Type="int" Nullable="false" />
+          <Property Name="DataCostituzione" Type="datetime" />
+          <Property Name="Address" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Contacts">
+          <Key>
+            <PropertyRef Name="ContactId" />
+          </Key>
+          <Property Name="ContactId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="nvarchar(max)" />
+          <Property Name="Cognome" Type="nvarchar(max)" />
+          <Property Name="DataNascita" Type="datetime" Nullable="false" />
+          <Property Name="Email" Type="nvarchar(max)" />
+          <Property Name="Telefono" Type="nvarchar(max)" />
+          <Property Name="CompanyId" Type="int" />
+        </EntityType>
+        <!--Errori trovati durante la generazione:
+avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'opis.dbo.vw_contatti_con_company'. La chiave è stata dedotta e la definizione è stata creata come tabella/visualizzazione di sola lettura.-->
+        <EntityType Name="vw_contatti_con_company">
+          <Key>
+            <PropertyRef Name="Nome" />
+          </Key>
+          <Property Name="Nome" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="NomeContatto" Type="nvarchar(max)" />
+          <Property Name="cognomecontatto" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK_dbo_Contacts_dbo_Companies_Company_CompanyId">
+          <End Role="Companies" Type="Self.Companies" Multiplicity="0..1" />
+          <End Role="Contacts" Type="Self.Contacts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Companies">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Contacts">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="sp_ContattiPerCompany" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="companyId" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="opisModelStoreContainer">
+          <EntitySet Name="Companies" EntityType="Self.Companies" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Contacts" EntityType="Self.Contacts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vw_contatti_con_company" EntityType="Self.vw_contatti_con_company" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_contatti_con_company].[Nome] AS [Nome], 
+    [vw_contatti_con_company].[NomeContatto] AS [NomeContatto], 
+    [vw_contatti_con_company].[cognomecontatto] AS [cognomecontatto]
+    FROM [dbo].[vw_contatti_con_company] AS [vw_contatti_con_company]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_dbo_Contacts_dbo_Companies_Company_CompanyId" Association="Self.FK_dbo_Contacts_dbo_Companies_Company_CompanyId">
+            <End Role="Companies" EntitySet="Companies" />
+            <End Role="Contacts" EntitySet="Contacts" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="opisModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Companies">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+          </Key>
+          <Property Name="CompanyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Telefono" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NumeroDipendenti" Type="Int32" Nullable="false" />
+          <Property Name="DataCostituzione" Type="DateTime" Precision="3" />
+          <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Contacts" Relationship="Self.FK_dbo_Contacts_dbo_Companies_Company_CompanyId" FromRole="Companies" ToRole="Contacts" />
+        </EntityType>
+        <EntityType Name="Contacts">
+          <Key>
+            <PropertyRef Name="ContactId" />
+          </Key>
+          <Property Name="ContactId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Cognome" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DataNascita" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Telefono" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyId" Type="Int32" />
+          <NavigationProperty Name="Companies" Relationship="Self.FK_dbo_Contacts_dbo_Companies_Company_CompanyId" FromRole="Contacts" ToRole="Companies" />
+        </EntityType>
+        <EntityType Name="vw_contatti_con_company">
+          <Key>
+            <PropertyRef Name="Nome" />
+          </Key>
+          <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NomeContatto" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="cognomecontatto" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_dbo_Contacts_dbo_Companies_Company_CompanyId">
+          <End Role="Companies" Type="Self.Companies" Multiplicity="0..1" />
+          <End Role="Contacts" Type="Self.Contacts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Companies">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Contacts">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="opisEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Companies" EntityType="Self.Companies" />
+          <EntitySet Name="Contacts" EntityType="Self.Contacts" />
+          <EntitySet Name="vw_contatti_con_company" EntityType="Self.vw_contatti_con_company" />
+          <AssociationSet Name="FK_dbo_Contacts_dbo_Companies_Company_CompanyId" Association="Self.FK_dbo_Contacts_dbo_Companies_Company_CompanyId">
+            <End Role="Companies" EntitySet="Companies" />
+            <End Role="Contacts" EntitySet="Contacts" />
+          </AssociationSet>
+          <FunctionImport Name="sp_ContattiPerCompany" ReturnType="Collection(opisModel.sp_ContattiPerCompany_Result)">
+            <Parameter Name="companyId" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="sp_ContattiPerCompany_Result">
+          <Property Type="Int32" Name="ContactId" Nullable="false" />
+          <Property Type="String" Name="Nome" Nullable="true" />
+          <Property Type="String" Name="Cognome" Nullable="true" />
+          <Property Type="DateTime" Name="DataNascita" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Email" Nullable="true" />
+          <Property Type="String" Name="Telefono" Nullable="true" />
+          <Property Type="Int32" Name="CompanyId" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="opisModelStoreContainer" CdmEntityContainer="opisEntities">
+          <EntitySetMapping Name="Companies">
+            <EntityTypeMapping TypeName="opisModel.Companies">
+              <MappingFragment StoreEntitySet="Companies">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="NumeroDipendenti" ColumnName="NumeroDipendenti" />
+                <ScalarProperty Name="DataCostituzione" ColumnName="DataCostituzione" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contacts">
+            <EntityTypeMapping TypeName="opisModel.Contacts">
+              <MappingFragment StoreEntitySet="Contacts">
+                <ScalarProperty Name="ContactId" ColumnName="ContactId" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="Cognome" ColumnName="Cognome" />
+                <ScalarProperty Name="DataNascita" ColumnName="DataNascita" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_contatti_con_company">
+            <EntityTypeMapping TypeName="opisModel.vw_contatti_con_company">
+              <MappingFragment StoreEntitySet="vw_contatti_con_company">
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="NomeContatto" ColumnName="NomeContatto" />
+                <ScalarProperty Name="cognomecontatto" ColumnName="cognomecontatto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_ContattiPerCompany" FunctionName="opisModel.Store.sp_ContattiPerCompany">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="opisModel.sp_ContattiPerCompany_Result">
+                <ScalarProperty Name="ContactId" ColumnName="ContactId" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="Cognome" ColumnName="Cognome" />
+                <ScalarProperty Name="DataNascita" ColumnName="DataNascita" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Nessuno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

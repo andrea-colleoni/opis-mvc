@@ -32,5 +32,8 @@ namespace Giorno1Oggetti
 
         [JsonIgnore]
         public virtual ICollection<Contact> Contatti { get; set; }
+
+
+        public virtual ICollection<Automobile> AutoAziendali { get; set; }
     }
 }

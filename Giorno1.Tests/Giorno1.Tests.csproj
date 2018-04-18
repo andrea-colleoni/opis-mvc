@@ -98,6 +98,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
     <Compile Include="DbContextTest.cs" />
+    <Compile Include="MigrazioneTest.cs" />
+    <Compile Include="TestOggettiNuovi.cs" />
+    <Compile Include="UnitTest1.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
@@ -113,6 +116,10 @@
     <ProjectReference Include="..\Giorno1\Giorno1.csproj">
       <Project>{D827D202-0BBB-4C1A-BAC3-16091B26EC7F}</Project>
       <Name>Giorno1</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Migrazione\Migrazione.csproj">
+      <Project>{6a09b8b7-4fcc-4a3f-89fa-dfd6dc4eb27b}</Project>
+      <Name>Migrazione</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

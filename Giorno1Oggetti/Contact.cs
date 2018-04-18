@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -13,6 +14,8 @@ namespace Giorno1Oggetti
         public string Nome { get; set; }
         [Required]
         public string Cognome { get; set; }
+
+        public Automobile car;
 
         [NotMapped]  // questo campo, proprietà,... non riguarda EF
         public string NomeCompleto
@@ -31,7 +34,10 @@ namespace Giorno1Oggetti
 
         public int CompanyId { get; set; }
 
+        [Required]
         [ForeignKey("CompanyId")]
         public virtual Company Company { get; set; }
+
+        public virtual ICollection<Reservation> viaggi { get; set; }
     }
 }

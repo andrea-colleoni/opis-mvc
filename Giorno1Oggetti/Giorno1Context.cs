@@ -19,6 +19,7 @@ namespace Giorno1Oggetti
 
         public virtual DbSet<Company> Companies { get; set; }
         public virtual DbSet<Contact> Contacts { get; set; }
-
+        public virtual DbSet<Automobile> Cars { get; set; }
+        public virtual DbSet<Reservation> Reservations { get; set; }
     }
 }

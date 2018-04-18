@@ -53,10 +53,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Autocarro.cs" />
+    <Compile Include="Automobile.cs" />
+    <Compile Include="Child1.cs" />
+    <Compile Include="Child2.cs" />
     <Compile Include="Company.cs" />
     <Compile Include="Contact.cs" />
+    <Compile Include="EreditarietaContext.cs" />
     <Compile Include="Giorno1Context.cs" />
+    <Compile Include="Item.cs" />
+    <Compile Include="MezzoTrasporto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reservation.cs" />
+    <Compile Include="SubItem1.cs" />
+    <Compile Include="SubItem2.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
